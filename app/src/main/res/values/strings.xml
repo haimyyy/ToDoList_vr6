@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ToDoList_vr6</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_display_task_acitvity">DisplayTaskAcitvity</string>
+    <string name="enterNewTask">enter new task</string>
+    <string name="btnAdd">ADD</string>
+    <string name="pick_time">choose time</string>
+    <string name="pick_date">choose date</string>
+    <string name="title_activity_map">MapActivity</string>
+</resources>
