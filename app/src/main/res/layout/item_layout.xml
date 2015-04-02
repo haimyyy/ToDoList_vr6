@@ -4,6 +4,14 @@
     android:id="@+id/item_id"
     android:descendantFocusability="blocksDescendants">
 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/item_dateReminder"
+        android:background="#DACA99"
+        ></FrameLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,7 +20,8 @@
         android:id="@+id/item_title"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="#57513D"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,7 +31,8 @@
         android:id="@+id/item_description"
         android:layout_below="@+id/item_title"
         android:layout_alignRight="@+id/item_title"
-        android:layout_alignEnd="@+id/item_title" />
+        android:layout_alignEnd="@+id/item_title"
+        android:textColor="#57513D"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,7 +42,8 @@
         android:id="@+id/item_dateReminder"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/item_description" />
+        android:layout_below="@+id/item_description"
+        android:textColor="#57513D"/>
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -40,6 +51,9 @@
         android:id="@+id/isDone"
         android:layout_below="@+id/item_title"
         android:layout_alignLeft="@+id/item_dateReminder"
-        android:layout_alignStart="@+id/item_dateReminder" />
+        android:layout_alignStart="@+id/item_dateReminder"
+        android:textColor="#57513D"/>
+
+
 
 </RelativeLayout>
