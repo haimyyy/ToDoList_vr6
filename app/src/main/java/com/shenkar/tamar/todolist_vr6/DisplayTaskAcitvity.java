@@ -1,5 +1,6 @@
 package com.shenkar.tamar.todolist_vr6;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -126,6 +127,16 @@ public class DisplayTaskAcitvity extends Activity {
 
         returnIntent.putExtra("task", newTask);
         setResult(RESULT_OK, returnIntent);
+        if(newTask.getTaskDateReminder()!=null)
+        {
+            Intent myIntent = new Intent(getBaseContext(), ReminderNotification.class);
+            myIntent.putExtra("task", newTask);
+
+            PendingIntent pendingIntent =
+                    PendingIntent.getBroadcast(getBaseContext(), (int) newTask.getId(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+            alarmManager.cancel(pendingIntent);
+        }
         finish();
     }
     private PendingIntent getGeofenceTransitionPendingIntent() {
@@ -156,7 +167,28 @@ public class DisplayTaskAcitvity extends Activity {
             newTask.setTaskDescription(taskDescription);
             newTask.setTaskDateReminder(taskDate);
         }
+        if(newTask.getTaskHourReminder()!=null)
+        {
+            Intent myIntent = new Intent(getBaseContext(), ReminderNotification.class);
+            myIntent.putExtra("task", newTask);
 
+            PendingIntent pendingIntent =
+                    PendingIntent.getBroadcast(getBaseContext(), (int) newTask.getId(), myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            try {
+                Date date = fmt.parse(taskDate+" "+taskHour);
+                calendar.setTimeInMillis(date.getTime());
+
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
         returnIntent.putExtra("task", newTask);
 
         setResult(RESULT_OK, returnIntent);

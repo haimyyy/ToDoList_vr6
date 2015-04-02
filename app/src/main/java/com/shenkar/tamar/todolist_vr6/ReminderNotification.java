@@ -27,14 +27,14 @@ public class ReminderNotification extends BroadcastReceiver{
                 (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // Build notification
-        Notification noti = new Notification.Builder(context)
+        Notification notification = new Notification.Builder(context)
                 .setContentTitle("Time Reminder").setContentText(task.getTaskDescription())
                 .setSmallIcon(R.drawable.task_launcher).setContentIntent(contentIntent)
                 .build();
-        noti.flags |= Notification.FLAG_AUTO_CANCEL;
-        noti.defaults |= Notification.DEFAULT_SOUND;
-        noti.defaults |= Notification.DEFAULT_VIBRATE;
-        notificationManager.notify(0, noti);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        notificationManager.notify(0, notification);
 
 
     }
