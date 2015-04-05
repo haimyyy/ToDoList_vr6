@@ -24,7 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.shenkar.tamar.todolist_vr6.R.id.listViewInfo;
-
+/**
+ * Created by tamar & haim on 3/22/15.
+ tamar zanzuri : 200212777;
+ haim yaakov : 204729107;
+ */
 
 public class MainActivity extends ActionBarActivity {
 
@@ -41,10 +45,13 @@ public class MainActivity extends ActionBarActivity {
         if (requestCode == ADD_NEW_TASK) {
             if (resultCode == RESULT_OK) {
                 Task myTask = (Task) data.getSerializableExtra("task");
-                long id = myDb.insertRow(myTask.getTaskTitle(), myTask.getTaskDescription(), myTask.getTaskDateReminder(), myTask.getTaskHourReminder(), myTask.getTaskIsDone());
+                //if task is empty don't update db
+                    if((myTask.getTaskTitle().equals("")) && (myTask.getTaskDescription().equals(""))){
+                        return;
+        }
 
+                long id = myDb.insertRow(myTask.getTaskTitle(), myTask.getTaskDescription(), myTask.getTaskDateReminder(), myTask.getTaskHourReminder(), myTask.getTaskIsDone());
                 myTask.setId(id);
-                Toast.makeText(MainActivity.this, "id in db " + id + "id in task " + myTask.getId(), Toast.LENGTH_SHORT).show();
                 taskListItems.add(myTask);
                 populateListView();
             }
@@ -61,10 +68,12 @@ public class MainActivity extends ActionBarActivity {
                         }
                     }
                 }
-                for (int i = 0; i < taskListItems.size(); i++) {
-                    if (taskListItems.get(i).getId() == myTask.getId()) {
-                        Toast.makeText(MainActivity.this, "task " + taskListItems.get(i).getId() + "found " + i + "new task " + myTask.getId(), Toast.LENGTH_SHORT).show();
-                        taskListItems.set(i, myTask);
+                else {
+                    for (int i = 0; i < taskListItems.size(); i++) {
+                        if (taskListItems.get(i).getId() == myTask.getId()) {
+                            Toast.makeText(MainActivity.this, "task " + taskListItems.get(i).getId() + "found " + i + "new task " + myTask.getId(), Toast.LENGTH_SHORT).show();
+                            taskListItems.set(i, myTask);
+                        }
                     }
                 }
                 populateListView();

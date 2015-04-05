@@ -2,16 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/item_id"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:layout_margin="10dp">
 
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/item_dateReminder"
-        android:background="#DACA99"
-        ></FrameLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,8 +43,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/isDone"
         android:layout_below="@+id/item_title"
-        android:layout_alignLeft="@+id/item_dateReminder"
-        android:layout_alignStart="@+id/item_dateReminder"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="270dp"
         android:textColor="#57513D"/>
 
 

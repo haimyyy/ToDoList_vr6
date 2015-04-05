@@ -1,5 +1,9 @@
 package com.shenkar.tamar.todolist_vr6;
-
+/**
+ * Created by tamar & haim on 3/22/15.
+ tamar zanzuri : 200212777;
+ haim yaakov : 204729107;
+ */
 
 import android.app.Application;
 
@@ -38,7 +42,7 @@ public class MyApplication extends Application {
             Tracker t = null;
             if(trackerId == TrackerName.APP_TRACKER)
             {
-              t = analytics.newTracker(R.xml.app_tracker);
+                t = analytics.newTracker(R.xml.app_tracker);
             }
             else if(trackerId == TrackerName.GLOBAL_TRACKER)
             {

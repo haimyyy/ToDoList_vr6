@@ -1,9 +1,10 @@
 package com.shenkar.tamar.todolist_vr6;
 
 import java.io.Serializable;
-
 /**
- * Created by tamar on 3/20/15.
+ * Created by tamar & haim on 3/22/15.
+ tamar zanzuri : 200212777;
+ haim yaakov : 204729107;
  */
 public class Task implements Serializable {
 
@@ -14,8 +15,6 @@ public class Task implements Serializable {
     public String taskDescription;
     public String taskDateReminder;
     public String taskHourReminder;
-    private Boolean hasLocation = false;
-    private MapPoint location;
     public boolean isDeleted;
     public int isDone;
 
@@ -92,29 +91,5 @@ public class Task implements Serializable {
         return this.isDone;
     }
 
-    public Boolean getHasLocation() {
-        return hasLocation;
-    }
-    public void setHasLocation(Boolean hasLocation) {
-        this.hasLocation = hasLocation;
-    }
-
-    public MapPoint getLocation() {
-        return location;
-    }
-
-    public void setLocation(MapPoint location) {
-        this.location = location;
-    }
-
-    public void setLocation(Double lat,Double lng) {
-        if(lat==null || lng==null || lat==0.0 || lng==0.0)
-        {
-            setHasLocation(false);
-            return;
-        }
-        this.location = new MapPoint(lat, lng);
-        setHasLocation(true);
-    }
 
 }

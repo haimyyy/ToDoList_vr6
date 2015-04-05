@@ -2,7 +2,11 @@
 
 // TODO: Change the package to match your project.
 package com.shenkar.tamar.todolist_vr6;
-
+/**
+ * Created by tamar & haim on 3/22/15.
+ tamar zanzuri : 200212777;
+ haim yaakov : 204729107;
+ */
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

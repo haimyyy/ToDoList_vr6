@@ -1,4 +1,8 @@
-
+/**
+ * Created by tamar & haim on 3/22/15.
+ tamar zanzuri : 200212777;
+ haim yaakov : 204729107;
+ */
 package com.shenkar.tamar.todolist_vr6;
 
 
@@ -28,8 +32,8 @@ public class ReminderNotification extends BroadcastReceiver{
 
         // Build notification
         Notification notification = new Notification.Builder(context)
-                .setContentTitle("Time Reminder").setContentText(task.getTaskDescription())
-                .setSmallIcon(R.drawable.task_launcher).setContentIntent(contentIntent)
+                .setContentTitle("This is a reminder for task:").setContentText(task.getTaskDescription())
+                .setSmallIcon(R.drawable.ic_launcher).setContentIntent(contentIntent)
                 .build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.defaults |= Notification.DEFAULT_SOUND;

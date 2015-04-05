@@ -47,28 +47,22 @@ import android.util.Log;
 import android.view.View.OnFocusChangeListener;
 import android.widget.RadioButton;
 import android.widget.Switch;
-
+/**
+ * Created by tamar & haim on 3/22/15.
+ tamar zanzuri : 200212777;
+ haim yaakov : 204729107;
+ */
 
 public class DisplayTaskAcitvity extends Activity {
 
     Task newTask = new Task();
     boolean isTaskNew = true;
-    // DatePicker data
-    private int mYear;
-    private int mMonth;
-    private int mDay;
-    private int mHour;
-    private int mMin;
     public final int REQUEST_CODE_GET_LOC = 3;//update locaition in 3 sec
     private static int UPDATE_INTERVAL = 10000; // 10 sec
     private static int FATEST_INTERVAL = 5000; // 5 sec
     private static int DISPLACEMENT = 10; // 10 meters
-    GeofenceClass geofenceItem;
-    List<Geofence> mGeofenceList = new ArrayList<Geofence>();
 
-    private LocationRequest mLocationRequest;
     // Stores the PendingIntent used to request geofence monitoring.
-    private PendingIntent mGeofenceRequestIntent;
     private GoogleApiClient mApiClient;
 
     @Override
@@ -78,18 +72,8 @@ public class DisplayTaskAcitvity extends Activity {
         setContentView(R.layout.activity_display_task_acitvity);
         EditText textTitle = (EditText) findViewById(R.id.textTitle);
         EditText textDescription = (EditText) findViewById(R.id.description);
-        TextView textDate = (TextView) findViewById(R.id.showMyDate);
-        TextView textHour = (TextView) findViewById(R.id.TimeEdit);
-
-        // get the current date
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-        mHour = c.get(Calendar.HOUR_OF_DAY);
-        mMin = c.get(Calendar.MINUTE);
-
-
+        EditText textDate = (EditText) findViewById(R.id.showMyDate);
+        EditText textHour = (EditText) findViewById(R.id.TimeEdit);
 
         if (intent.hasExtra("task")) {
             isTaskNew = false;
@@ -98,16 +82,6 @@ public class DisplayTaskAcitvity extends Activity {
             textDescription.append(newTask.getTaskDescription());
             textDate.append(newTask.getTaskDateReminder());
             textHour.append(newTask.getTaskHourReminder());
-        } else {
-            textDate.append(mYear + "/" + mMonth + "/" + mDay);
-            textHour.append(mHour + " : " + mDay);
-        }
-        if(newTask.getHasLocation())
-        {
-
-            mApiClient.connect();
-            Switch s = (Switch)findViewById(R.id.switch1);
-            s.setChecked(true);
         }
     }
 
@@ -139,13 +113,7 @@ public class DisplayTaskAcitvity extends Activity {
         }
         finish();
     }
-    private PendingIntent getGeofenceTransitionPendingIntent() {
 
-        Intent intent = new Intent(getApplicationContext(), GeofencingReceiverIntentService.class);
-        return PendingIntent.getService(getApplicationContext(), 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-    }
     @Override
     public void onBackPressed() {
 
@@ -153,12 +121,13 @@ public class DisplayTaskAcitvity extends Activity {
 
         EditText textTitle = (EditText) findViewById(R.id.textTitle);
         EditText textDescription = (EditText) findViewById(R.id.description);
-        TextView textDate = (TextView) findViewById(R.id.showMyDate);
-        TextView textHour = (TextView) findViewById(R.id.TimeEdit);
+        EditText textDate = (EditText) findViewById(R.id.showMyDate);
+        EditText textHour = (EditText) findViewById(R.id.TimeEdit);
         String taskTitle = textTitle.getText().toString();
         String taskDescription = textDescription.getText().toString();
         String taskDate = textDate.getText().toString();
         String taskHour = textHour.getText().toString();
+
 
         if (isTaskNew) {
             newTask = new Task(0, taskTitle, taskDescription, taskDate, taskHour, 0);
@@ -166,8 +135,9 @@ public class DisplayTaskAcitvity extends Activity {
             newTask.setTaskTitle(taskTitle);
             newTask.setTaskDescription(taskDescription);
             newTask.setTaskDateReminder(taskDate);
+            newTask.setTaskHourReminder(taskHour);
         }
-        if(newTask.getTaskHourReminder()!=null)
+        if(newTask.getTaskHourReminder() != "")
         {
             Intent myIntent = new Intent(getBaseContext(), ReminderNotification.class);
             myIntent.putExtra("task", newTask);
@@ -178,11 +148,12 @@ public class DisplayTaskAcitvity extends Activity {
             AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
 
             Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             try {
                 Date date = fmt.parse(taskDate+" "+taskHour);
                 calendar.setTimeInMillis(date.getTime());
-
+//                Toast.makeText(DisplayTaskAcitvity.this, calendar.getTimeInMillis() + " ", Toast.LENGTH_SHORT).show();
+                Log.d("time in miliseconds", calendar.getTimeInMillis() +"");
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -194,60 +165,10 @@ public class DisplayTaskAcitvity extends Activity {
         setResult(RESULT_OK, returnIntent);
         finish();
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK)
-        {
-            switch(requestCode)
-            {
-                case REQUEST_CODE_GET_LOC:
-                {
-                    MapPoint point = (MapPoint)data.getSerializableExtra("latlng");
-                    if(point==null)
-                    {
-                        Switch s = (Switch)findViewById(R.id.switch1);
-                        s.setChecked(false);
-                        return;
-                    }
-                    newTask.setLocation(point);
-                    newTask.setHasLocation(true);
-                }
-                break;
-            }
-        }
-        else
-        {
-            Switch s = (Switch)findViewById(R.id.switch1);
-            s.setChecked(false);
-        }
-    }
-    private GeofencingRequest getGeofencingRequest() {
-        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-        builder.addGeofences(mGeofenceList);
-        return builder.build();
-    }
-    public void onConnected(Bundle arg0) {
-        // TODO Auto-generated method stub
-
-        mGeofenceRequestIntent = getGeofenceTransitionPendingIntent();
-        if(isTaskNew)
-        {
-            LocationServices.GeofencingApi.addGeofences(
-                    mApiClient,
-                    getGeofencingRequest(),
-                    mGeofenceRequestIntent).setResultCallback((ResultCallback<com.google.android.gms.common.api.Status>) this);
-        }
-    }
 
 
-    protected void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
-        mLocationRequest.setFastestInterval(FATEST_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setSmallestDisplacement(DISPLACEMENT);
-    }
+
+
     protected synchronized void buildGoogleApiClient() {
         mApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) this)
@@ -255,31 +176,8 @@ public class DisplayTaskAcitvity extends Activity {
                 .addApi(LocationServices.API).build();
     }
 
-    public void showMap(View view) {
 
-        Intent i = new Intent(this,MapActivity.class);
-        startActivity(i);
-    }
-    public void showMapWindow(View view) {
 
-        Switch s = (Switch)view;
-        if(s.isChecked())
-        {
-            Intent i = new Intent(this,Map.class);
-            startActivityForResult(i, REQUEST_CODE_GET_LOC);
-        }
-        else
-        {
-            if(newTask.getHasLocation())
-            {
-                List<String> ids =new ArrayList<String>();
-                ids.add(String.valueOf(newTask.getId()));
-
-                LocationServices.GeofencingApi.removeGeofences(mApiClient, ids);
-                newTask.setHasLocation(false);
-            }
-        }
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

@@ -14,7 +14,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:hint="Enter title"
-        android:textColor="#57513D"/>
+        android:textColor="#57513D"
+        android:layout_marginTop="20dp"/>
 
     <EditText
         android:id="@+id/description"
@@ -26,7 +27,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:hint="Enter description"
-        android:textColor="#57513D"/>
+        android:textColor="#57513D"
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/myDatePickerButton"
@@ -39,14 +41,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="64dp"
-        android:background="#46b1a7"/>
+        android:background="@drawable/roundbutton"/>
 
-    <TextView android:id="@+id/showMyDate"
-        android:layout_width="fill_parent"
+    <EditText android:id="@+id/showMyDate"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/myDatePickerButton"
         android:layout_toEndOf="@+id/myDatePickerButton"
-        android:layout_below="@+id/myDatePickerButton" />
+        android:layout_below="@+id/myDatePickerButton"
+        android:hint="date of reminder"
+        />
 
 
     <Button
@@ -60,44 +64,27 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="34dp"
         android:id="@+id/addTimeReminder"
-        android:background="#46b1a7"/>
+        android:background="@drawable/roundbutton"/>
 
-    <TextView android:id="@+id/TimeEdit"
-        android:layout_width="fill_parent"
+    <EditText android:id="@+id/TimeEdit"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/addTimeReminder"
         android:layout_toRightOf="@+id/addTimeReminder"
         android:layout_toEndOf="@+id/addTimeReminder"
+        android:hint="hour of reminder"
         />
 
-    <ImageButton
-        android:layout_width="wrap_content"
+    <Button
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="delete task"
         android:id="@+id/button"
         android:onClick="deleteRecord"
         android:src="@drawable/delete_button"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/switch1"
-        android:layout_alignStart="@+id/switch1"
-        android:layout_marginLeft="64dp"
-        android:background="#F0E0B2"/>
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:layout_marginLeft ="5dp"
-        android:layout_marginTop ="100dp"
-        android:onClick="showMapWindow"
-
+        android:layout_marginLeft="6dp"
+        android:background="@drawable/deleteroundbutton"
         />
-    <Button
-        android:id="@+id/newButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="new button"
-        android:layout_marginTop ="350dp"
-        android:onClick="showMap"/>
+
 </RelativeLayout>

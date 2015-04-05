@@ -16,7 +16,9 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 /**
- * Created by tamar on 3/21/15.
+ * Created by tamar & haim on 3/22/15.
+ tamar zanzuri : 200212777;
+ haim yaakov : 204729107;
  */
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
